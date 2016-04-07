@@ -1,0 +1,59 @@
+{
+  "name": "usedcss",
+  "version": "1.0.0",
+  "description": "Extract only styles presented in your html files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/eslint *.js tests/*.js && ./node_modules/jscs/bin/jscs *.js tests/*.js && ./node_modules/mocha/bin/mocha tests/*.tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/komachi/usedcss.git"
+  },
+  "keywords": [
+    "css",
+    "postcss",
+    "less",
+    "scss",
+    "sass",
+    "postcss-plugin",
+    "optimization"
+  ],
+  "author": "Anton Nesterov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/komachi/usedcss/issues"
+  },
+  "homepage": "https://nesterov.pw/usedcss",
+  "eslintConfig": {
+    "extends": "defaults",
+    "env": {
+      "node": true,
+      "es6": true,
+      "mocha": true
+    }
+  },
+  "jscsConfig": {
+    "preset": "node-style-guide",
+    "esnext": true,
+    "verbose": true,
+    "requireTrailingComma": null,
+    "requireCapitalizedComments": null
+  },
+  "dependencies": {
+    "angular-expressions": "^0.3.0",
+    "bluebird": "^3.3.4",
+    "cheerio": "^0.20.0",
+    "is-regex": "^1.0.3",
+    "multi-glob": "^1.0.1",
+    "node-noop": "^1.0.0",
+    "postcss": "^5.0.19"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-defaults": "^9.0.0",
+    "expect": "^1.16.0",
+    "jscs": "^2.11.0",
+    "mocha": "^2.4.5"
+  }
+}
