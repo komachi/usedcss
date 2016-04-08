@@ -2,6 +2,22 @@
 
 >PostCSS plugin which helps you extract only used styles. Unlike [uncss](https://github.com/giakki/uncss) and others does not render your pages to find used classes, but instead parse it statically, which can be beneficial in some cases. Also support simple Angular's ng-class parsing. And also, due to awesomeness of PostCSS, it works with LESS and SCSS via PostCSS syntaxes.
 
+```html
+<!--- HTML file -->
+<div class="test"></div>
+```
+
+```css
+/* Input */
+.test { color: #000; }
+.test2 { color: #fff; }
+```
+
+```css
+/* Output */
+.test { color: #000; }
+```
+
 ## Installation
 
 ```
