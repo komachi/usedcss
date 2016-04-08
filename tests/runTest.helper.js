@@ -1,9 +1,9 @@
-const postcss = require('postcss');
-const Promise = require('bluebird');
-const usedcss = require('../index.js');
-const readFile = Promise.promisify(require('fs').readFile);
+import postcss from 'postcss';
+import Promise from 'bluebird';
+import usedcss from '../src/index.js';
+import {readFile} from 'fs';
 
-module.exports = (options, file) => {
+export function runTest(options, file) {
   if (!file) {
     file = `${__dirname}/test.css`;
   }
@@ -15,7 +15,7 @@ module.exports = (options, file) => {
       html: [`${__dirname}/test.html`]
     };
   }
-  return readFile(file).then((content) => {
+  return Promise.promisify(readFile)(file).then((content) => {
     return postcss([usedcss(options)]).process(content.toString());
   });
-};
+}

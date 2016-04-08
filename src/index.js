@@ -1,16 +1,16 @@
 'use strict';
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
-const glob = Promise.promisify(require('multi-glob').glob);
-const postcss = require('postcss');
-const noop = require('node-noop').noop;
-const cheerio = require('cheerio');
-const expressions = require('angular-expressions');
-const isRegex = require('is-regex');
+import Promise from 'bluebird';
+import {readFile} from 'fs';
+import {glob as glob} from 'multi-glob';
+import postcss from 'postcss';
+import {noop} from 'node-noop';
+import cheerio from 'cheerio';
+import expressions from 'angular-expressions';
+import isRegex from 'is-regex';
 
 module.exports = postcss.plugin('usedcss', (options) => {
   var htmls = [];
-  return function(css) {
+  return (css) => {
     return new Promise((resolve, reject) => {
       if (!options.html) {
         reject('No html files specified.');
@@ -28,11 +28,11 @@ module.exports = postcss.plugin('usedcss', (options) => {
         reject('ignoreRegexp option should contain regular expressions.');
         return;
       }
-      if (options.ngclass && typeof options.ngclass != 'boolean') {
+      if (options.ngclass && typeof options.ngclass !== 'boolean') {
         reject('ngclass option should be boolean.');
         return;
       }
-      if (options.ignoreNesting && typeof options.ignoreNesting != 'boolean') {
+      if (options.ignoreNesting && typeof options.ignoreNesting !== 'boolean') {
         reject('ignoreNesting option should be boolean.');
         return;
       }
@@ -45,10 +45,10 @@ module.exports = postcss.plugin('usedcss', (options) => {
         promise = Promise.resolve();
       }
       promise.then(() => {
-        return glob(options.html)
+        return Promise.promisify(glob)(options.html)
           .then((files) => {
             return Promise.map(files, (file) => {
-              return fs.readFileAsync(file).then((content) => {
+              return Promise.promisify(readFile)(file).then((content) => {
                 htmls.push(cheerio.load(content.toString()));
                 return Promise.resolve();
               });
@@ -97,21 +97,21 @@ module.exports = postcss.plugin('usedcss', (options) => {
               // sounds hacky, but it works
               promises.push(
                 Promise.map(rule.selectors, (selector) => {
-                  var promise;
+                  var pr;
                   if (options.ignoreRegexp) {
-                    promise = Promise.map(options.ignoreRegexp, (item) => {
+                    pr = Promise.map(options.ignoreRegexp, (item) => {
                       if (item.test(selector)) {
                         return Promise.reject();
                       }
                     });
                   } else {
-                    promise = Promise.resolve();
+                    pr = Promise.resolve();
                   }
-                  return promise.then(() => {
+                  return pr.then(() => {
                     // remove pseudo-classes from selectors
                     selector = selector.replace(/::?[a-zA-Z-]*$/g, '');
                     if (options.ignoreNesting) {
-                      selector = selector.replace(/^.*( |>|<)/g, '')
+                      selector = selector.replace(/^.*( |>|<)/g, '');
                     }
                     return Promise.map(htmls, (html) => {
                       if (

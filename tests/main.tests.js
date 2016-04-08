@@ -1,90 +1,83 @@
-const expect = require('expect');
-const runTest = require('./runTest.helper.js');
+import test from 'ava';
+import {runTest} from './runTest.helper.js';
 
-describe('main', () => {
-  it('Should remove unused css classes', (done) => {
-    runTest().then((result) => {
-      expect(result.css).toBe(
-        '.test1 .test2 { color: red }\n' +
-        '.test10,.test2 { color: pink; }\n.' +
-        'test1:after { content: \'\'; }\n' +
-        '.test2::before { content: \'\'; }\n'
-      );
-      done();
-    });
+test('Should remove unused css classes', t => {
+  return runTest().then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n.' +
+      'test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n'
+    );
   });
+});
 
-  it('Should save ng-class classes', (done) => {
-    runTest({ngclass: true}).then((result) => {
-      expect(result.css).toBe(
-        '.test1 .test2 { color: red }\n' +
-        '.test10,.test2 { color: pink; }\n' +
-        '.test1:after { content: \'\'; }\n' +
-        '.test2::before { content: \'\'; }\n' +
-        '.test1 .test3 { color: white; }\n' +
-        '.test1 .test4 { color: orange; }\n'
-      );
-      done();
-    });
+
+test('Should save ng-class classes', t => {
+  return runTest({ngclass: true}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.test1 .test3 { color: white; }\n' +
+      '.test1 .test4 { color: orange; }\n'
+    );
   });
+});
 
-  it('Should ignore nesting', (done) => {
-    runTest({ignoreNesting: true}).then((result) => {
-      expect(result.css).toBe(
-        '.test1 .test2 { color: red }\n' +
+test('Should ignore nesting', t => {
+  return runTest({ignoreNesting: true}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.nested .test1 { color: blue; }\n' +
+      '.nested>.test2 { color: yellow;}\n'
+    );
+  });
+});
+
+test('Should work with ignore option', t => {
+  return runTest({ignore: ['.remove']}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.remove { color: black; }\n'
+    );
+  });
+});
+
+test('Ignore should also ignore nesting if ignoreNesting is enabled',
+  t => {
+    return runTest({
+      ignore: ['.nesting .remove'],
+      ignoreNesting: true
+    }).then(result => {
+      t.is(result.css,
+       '.test1 .test2 { color: red }\n' +
         '.test10,.test2 { color: pink; }\n' +
         '.test1:after { content: \'\'; }\n' +
         '.test2::before { content: \'\'; }\n' +
         '.nested .test1 { color: blue; }\n' +
-        '.nested>.test2 { color: yellow;}\n'
-      );
-      done();
-    });
-  });
-
-  it('Should work with ignore option', (done) => {
-    runTest({ignore: ['.remove']}).then((result) => {
-      expect(result.css).toBe(
-        '.test1 .test2 { color: red }\n' +
-        '.test10,.test2 { color: pink; }\n' +
-        '.test1:after { content: \'\'; }\n' +
-        '.test2::before { content: \'\'; }\n' +
+        '.nested>.test2 { color: yellow;}\n' +
         '.remove { color: black; }\n'
       );
-      done();
     });
-  });
+  }
+);
 
-  it('Ignore should also ignore nesting if ignoreNesting is enabled',
-    (done) => {
-      runTest({
-        ignore: ['.nesting .remove'],
-        ignoreNesting: true
-      }).then((result) => {
-        expect(result.css).toBe(
-          '.test1 .test2 { color: red }\n' +
-          '.test10,.test2 { color: pink; }\n' +
-          '.test1:after { content: \'\'; }\n' +
-          '.test2::before { content: \'\'; }\n' +
-          '.nested .test1 { color: blue; }\n' +
-          '.nested>.test2 { color: yellow;}\n' +
-          '.remove { color: black; }\n'
-        );
-        done();
-      });
-    }
-  );
-
-  it('Should work with ignoreRegexp option', (done) => {
-    runTest({ignoreRegexp: [/.*remo.*/]}).then((result) => {
-      expect(result.css).toBe(
-        '.test1 .test2 { color: red }\n' +
-        '.test10,.test2 { color: pink; }\n' +
-        '.test1:after { content: \'\'; }\n' +
-        '.test2::before { content: \'\'; }\n' +
-        '.remove { color: black; }\n'
-      );
-      done();
-    });
+test('Should work with ignoreRegexp option', t => {
+  return runTest({ignore: ['.remove']}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.remove { color: black; }\n'
+    );
   });
 });
