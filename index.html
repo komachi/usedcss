@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <title>usedcss — an utility to remove unused styles</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-yxFy3Tt84CcGRj9UI7RA25hoUMpUPoFzcdPtK3hBdNgEGnh9FdKgMVM+lbAZTKN2" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism-coy.min.css" integrity="sha384-iqfUelvsCfPMqDuV3LZIsaXRdtTq8z0tyrh1gt7jrnqy4E8XJoVGuo0pWqaHjbgV" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="jumbotron">
+      <div class="container text-center">
+        <h1>usedcss</h1>
+        <p><a href="http://postcss.org" target="_blank">PostCSS</a> plugin which helps you extract only used styles.</p>
+        <p>Unlike <a href="https://github.com/giakki/uncss" target="_blank">uncss</a> and others does not render your pages to find used classes, but instead parse it statically, which can be beneficial in some cases.</p>
+        <p>Also support simple Angular's ng-class parsing.</p>
+        <p>And also, due to awesomeness of PostCSS, it works with LESS and SCSS via PostCSS syntaxes.</p>
+        <p>
+          <a class="btn btn-primary btn-lg" href="https://github.com/komachi/usedcss"><i class="fa fa-github"></i> GitHub</a>
+          <a class="btn btn-default btn-lg" href="https://npmjs.com/package/usedcss"><i class="fa fa-terminal"></i> npm</a>
+        </p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <h2>What does it do?</h2>
+          <pre><code class="language-markup">&lt;!--- HTML file --&gt;<br>
+&lt;div class="test"&gt;&lt;/div&gt;</code></pre>
+          <pre><code class="language-css">/* Input CSS */
+.test { color: #000; }
+.test2 { color: #fff; }</code></pre>
+        <pre><code class="language-css">/* Output CSS*/
+.test { color: #000; }</code></pre>
+          <p>Simple, eh?</p>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <h2>Installation</h2>
+          <p>Using <a href="https://npmjs.com" target="_blank">npm</a></p>
+          <code>npm install usedcss --save</code>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <h2>Usage</h2>
+          <p>Check out <a href="https://github.com/postcss/postcss#usage" target="_blank">PostCSS documentation</a> on how to use PostCSS plugins.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-md-push-3">
+          <h2>Options</h2>
+          <h3>html</h3>
+          <p>Type: <code>array</code> of <a href="https://github.com/isaacs/node-glob" target="_blank">globs</a> <em>Required option</em></p>
+          <p>You must specify html files to check css selector usage against them.</p>
+          <h3>ignore</h3>
+          <p>Type: <code>array</code> of <code>strings</code></p>
+          <p>Saves ignored selectors even if they are not presented in DOM.</p>
+          <h3>ignoreRegexp</h3>
+          <p>Type: <code>array</code> of <code>regexps</code></p>
+          <p>Use it to save selectors based on regexp.</p>
+          <h3>ngclass</h3>
+          <p>Type: <code>boolean</code></p>
+          <p>Default: <code>false</code></p>
+          <p>Parse or not to parse <code>ng-class</code> statements.</p>
+          <h3>ignoreNesting</h3>
+          <p>Type: <code>boolean</code></p>
+          <p>Default: <code>false</code></p>
+          <p>Ignore nesting so <code>.class1 .class2</code> will be saved even if there is element with <code>class2</code>, but it's not nested with <code>class1</code>. Useful if you use templates.</p>
+        </div>
+      </div>
+      <footer class="row">
+        <div class="col-md-12 text-center">
+          <p>Created by <a href="https://nesterov.pw" target="_blank">Anton Nesterov</a>.</p>
+          <p>Also <a href="https://twitter.com/AntNesterov" target="_blank"><i class="fa fa-twitter"></i> @AntNesterov</a> and <a href="https://github.com/komachi" target="_blank"><i class="fa fa-github"></i> @komachi</a>.</p>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/components/prism-core.min.js" integrity="sha384-ers52X1mSTrbQW3dn+3+JGwDsW9xdumDPLvC6ow82NMN8HMOo/UnuznSj5IgCtio" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/components/prism-css.min.js" integrity="sha384-lUehIyVb5xwiron/s7ie+4ezSb84vU2b1p7XN95rGGOBxZNSEQXd63etW0n0hJH7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/components/prism-markup.min.js" integrity="sha384-M4YdFJ/oAkLh+XyHt9k7TqCPrPf8xLIyKWWgTEpthrmVIfSlkDI7VhG7tdHrbEMw" crossorigin="anonymous"></script>
+  </body>
+</html>
