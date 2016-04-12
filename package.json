@@ -1,11 +1,10 @@
 {
   "name": "usedcss",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extract only styles presented in your html files.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel src -d lib",
-    "prepublish": "npm build",
+    "prepublish": "./node_modules/.bin/babel src -d lib",
     "test": "./node_modules/.bin/eslint src/*js tests/*.js && ./node_modules/.bin/ava && ./node_modules/.bin/jscs src/*.js tests/*.js"
   },
   "repository": {
