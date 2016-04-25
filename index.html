@@ -64,6 +64,10 @@
           <p>Type: <code>boolean</code></p>
           <p>Default: <code>false</code></p>
           <p>Ignore nesting so <code>.class1 .class2</code> will be saved even if there is element with <code>class2</code>, but it's not nested with <code>class1</code>. Useful if you use templates.</p>
+          <h3>templateMode</h3>
+          <p>Type: <code>boolean</code></p>
+          <p>Default: <code>false</code></p>
+          <p>Useful if you run usedcss against nested templates. It split selectors so if you have an element with class <code>class1</code> in one file and an element with class <code>class2</code> in another one, it will save rule with <code>.class1 .class2</code> selector.</p>
         </div>
       </div>
       <footer class="row">
