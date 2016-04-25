@@ -5,8 +5,8 @@ test('Should remove unused css classes', t => {
   return runTest().then(result => {
     t.is(result.css,
       '.test1 .test2 { color: red }\n' +
-      '.test10,.test2 { color: pink; }\n.' +
-      'test1:after { content: \'\'; }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
       '.test2::before { content: \'\'; }\n'
     );
   });
@@ -34,7 +34,8 @@ test('Should ignore nesting', t => {
       '.test1:after { content: \'\'; }\n' +
       '.test2::before { content: \'\'; }\n' +
       '.nested .test1 { color: blue; }\n' +
-      '.nested>.test2 { color: yellow;}\n'
+      '.nested>.test2 { color: yellow;}\n' +
+      '.test1 .test5 { color: magenta; }\n'
     );
   });
 });
@@ -64,7 +65,8 @@ test('Ignore should also ignore nesting if ignoreNesting is enabled',
         '.test2::before { content: \'\'; }\n' +
         '.nested .test1 { color: blue; }\n' +
         '.nested>.test2 { color: yellow;}\n' +
-        '.remove { color: black; }\n'
+        '.remove { color: black; }\n' +
+        '.test1 .test5 { color: magenta; }\n'
       );
     });
   }
@@ -78,6 +80,19 @@ test('Should work with ignoreRegexp option', t => {
       '.test1:after { content: \'\'; }\n' +
       '.test2::before { content: \'\'; }\n' +
       '.remove { color: black; }\n'
+    );
+  });
+});
+
+
+test('Should work with templateMode option', t => {
+  return runTest({templateMode: true}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.test1 .test5 { color: magenta; }\n'
     );
   });
 });

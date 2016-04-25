@@ -36,6 +36,10 @@ module.exports = postcss.plugin('usedcss', (options) => {
         reject('ignoreNesting option should be boolean.');
         return;
       }
+      if (options.templateMode && typeof options.templateMode !== 'boolean') {
+        reject('templateMode option should be boolean.');
+        return;
+      }
       var promise;
       if (options.ignoreNesting && options.ignore) {
         promise = Promise.map(options.ignore, (item, i) => {
@@ -82,6 +86,7 @@ module.exports = postcss.plugin('usedcss', (options) => {
           })
           .then(() => {
             var promises = [];
+
             css.walkRules((rule) => {
               // ignore keyframes
               if (
@@ -113,12 +118,29 @@ module.exports = postcss.plugin('usedcss', (options) => {
                     if (options.ignoreNesting) {
                       selector = selector.replace(/^.*( |>|<)/g, '');
                     }
+                    if (options.templateMode) {
+                      selector = selector.split(/[ <>]/);
+                      if (
+                        selector.every(sel => {
+                          return htmls.some(html => {
+                            return html(sel).length > 0 ||
+                              (
+                                options.ignore &&
+                                options.ignore.indexOf(selector) > -1
+                              );
+                          });
+                        })
+                      ) {
+                        return Promise.reject();
+                      }
+                      return Promise.resolve();
+                    }
                     return Promise.map(htmls, (html) => {
                       if (
-                        (html(selector).length > 0 ||
+                        html(selector).length > 0 ||
                         (
                           options.ignore &&
-                          options.ignore.indexOf(selector) > -1)
+                          options.ignore.indexOf(selector) > -1
                         )
                       ) {
                         return Promise.reject();

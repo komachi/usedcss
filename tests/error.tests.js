@@ -36,3 +36,9 @@ test('Should retun error if ignoreNesting is not boolean', t => {
     t.is(err, 'ignoreNesting option should be boolean.');
   });
 });
+
+test('Should retun error if templateMode is not boolean', t => {
+  return runTest({templateMode: 'test'}).catch(err => {
+    t.is(err, 'templateMode option should be boolean.');
+  });
+});

@@ -7,3 +7,5 @@
 .nested .test1 { color: blue; }
 .nested>.test2 { color: yellow;}
 .remove { color: black; }
+.test1 .test5 { color: magenta; }
+.test6 .test7 { color: cyan; }

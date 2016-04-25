@@ -61,6 +61,14 @@ Default: `false`
 
 Ignore nesting so `.class1 .class2` will be saved even if there is element with `class2`, but it's not nested with `class1`. Useful if you use templates.
 
+## templateMode
+
+Type: `boolean`
+
+Default: `false`
+
+Useful if you run usedcss against nested templates. It split selectors so if you have an element with class `class1` in one file and an element with class `class2` in another one, it will save rule with `.class1 .class2` selector.
+
 ## Usage
 
 Check out [PostCSS documentation](https://github.com/postcss/postcss#usage) on how to use PostCSS plugins.

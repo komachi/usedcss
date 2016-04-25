@@ -8,11 +8,11 @@ export function runTest(options, file) {
     file = `${__dirname}/test.css`;
   }
   if (options && options.html === undefined) {
-    options.html = [`${__dirname}/test.html`];
+    options.html = [`${__dirname}/*.html`];
   }
   if (!options) {
     options = {
-      html: [`${__dirname}/test.html`]
+      html: [`${__dirname}/*.html`]
     };
   }
   return Promise.promisify(readFile)(file).then((content) => {
