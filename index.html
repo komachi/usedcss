@@ -48,8 +48,11 @@
         <div class="col-sm-12 col-md-6 col-md-push-3">
           <h2>Options</h2>
           <h3>html</h3>
-          <p>Type: <code>array</code> of <a href="https://github.com/isaacs/node-glob" target="_blank">globs</a> <em>Required option</em></p>
-          <p>You must specify html files to check css selector usage against them.</p>
+          <p>Type: <code>array</code> of <a href="https://github.com/isaacs/node-glob" target="_blank">globs</a> <em>At least html or js option is required</em></p>
+          <p>HTML files to check css selector usage against them.</p>
+          <h3>js</h3>
+          <p>Type: <code>array</code> of <a href="https://github.com/isaacs/node-glob" target="_blank">globs</a> <em>At least html or js option is required</em></p>
+          <p>JS files to check css selector usage against them.</p>
           <h3>ignore</h3>
           <p>Type: <code>array</code> of <code>strings</code></p>
           <p>Saves ignored selectors even if they are not presented in DOM.</p>
@@ -68,6 +71,10 @@
           <p>Type: <code>boolean</code></p>
           <p>Default: <code>false</code></p>
           <p>Useful if you run usedcss against nested templates. It split selectors so if you have an element with class <code>class1</code> in one file and an element with class <code>class2</code> in another one, it will save rule with <code>.class1 .class2</code> selector.</p>
+          <h3>templateCache</h3>
+          <p>Type: <code>boolean</code></p>
+          <p>Default: <code>false</code></p>
+          <p>Check also for html presented in <a href="https://docs.angularjs.org/api/ng/service/$templateCache" target="_blank">Angular's $templateCache</a>. If you want to use this option, <code>js</code> option is required.</p>
         </div>
       </div>
       <footer class="row">
