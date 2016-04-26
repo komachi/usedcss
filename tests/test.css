@@ -10,3 +10,4 @@
 .test1 .test5 { color: magenta; }
 .test1 > .test6 { color: khaki; }
 .test6 .test7 { color: cyan; }
+.test11 { color: navy; }

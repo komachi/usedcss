@@ -7,13 +7,14 @@ import {noop} from 'node-noop';
 import cheerio from 'cheerio';
 import expressions from 'angular-expressions';
 import isRegex from 'is-regex';
+import angularTemplatecacheExtract from 'angular-templatecache-extract';
 
 module.exports = postcss.plugin('usedcss', (options) => {
   var htmls = [];
   return (css) => {
     return new Promise((resolve, reject) => {
-      if (!options.html) {
-        reject('No html files specified.');
+      if (!options.html && !options.js) {
+        reject('Neither html nor js files was specified.');
         return;
       }
       if (options.ignore && !Array.isArray(options.ignore)) {
@@ -40,6 +41,14 @@ module.exports = postcss.plugin('usedcss', (options) => {
         reject('templateMode option should be boolean.');
         return;
       }
+      if (options.templateCache && typeof options.templateCache !== 'boolean') {
+        reject('templateCache option should be boolean.');
+        return;
+      }
+      if (options.templateCache && !options.js) {
+        reject('templateCache option require js files to be specified.');
+        return;
+      }
       var promise;
       if (options.ignoreNesting && options.ignore) {
         promise = Promise.map(options.ignore, (item, i) => {
@@ -49,15 +58,39 @@ module.exports = postcss.plugin('usedcss', (options) => {
         promise = Promise.resolve();
       }
       promise.then(() => {
-        return Promise.promisify(glob)(options.html)
-          .then((files) => {
-            return Promise.map(files, (file) => {
-              return Promise.promisify(readFile)(file).then((content) => {
-                htmls.push(cheerio.load(content.toString()));
-                return Promise.resolve();
-              });
-            });
-          })
+        let prs = [];
+        if (options.html) {
+          prs.push(
+            Promise.promisify(glob)(options.html)
+              .then((files) => {
+                return Promise.map(files, (file) => {
+                  return Promise.promisify(readFile)(file).then((content) => {
+                    htmls.push(cheerio.load(content.toString()));
+                    return Promise.resolve();
+                  });
+                });
+              })
+          );
+        }
+        if (options.js && options.templateCache) {
+          prs.push(
+            Promise.promisify(glob)(options.js)
+              .then((files) => {
+                return Promise.map(files, (file) => {
+                  return Promise.promisify(readFile)(file).then((content) => {
+                    return angularTemplatecacheExtract(content.toString())
+                      .then(tpls => {
+                        return Promise.map(tpls, tpl => {
+                          htmls.push(cheerio.load(tpl));
+                          return Promise.resolve();
+                        });
+                      });
+                  });
+                });
+              })
+          );
+        }
+        return Promise.all(prs)
           .then(() => {
             if (options.ngclass) {
               return Promise.map(htmls, (html) => {

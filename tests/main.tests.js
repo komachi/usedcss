@@ -99,3 +99,17 @@ test('Should work with templateMode option', t => {
     );
   });
 });
+
+test('Should work with templateCache option', t => {
+  return runTest({templateCache: true, js: [`${__dirname}/angularapp.js`]})
+    .then(result => {
+      t.is(result.css,
+        '.test1 .test2 { color: red }\n' +
+        '.test10,.test2 { color: pink; }\n' +
+        '.test1:after { content: \'\'; }\n' +
+        '.test2::before { content: \'\'; }\n' +
+        '.test11 { color: navy; }\n'
+      );
+    }
+  );
+});

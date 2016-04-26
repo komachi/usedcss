@@ -29,9 +29,16 @@ npm i usedcss --save
 ### html
 
 Type: `array` of [globs](https://github.com/isaacs/node-glob)
-*Required option*
+*At least html or js option is required*
 
-You must specify html files to check css selector usage against them.
+HTML files to check css selector usage against them.
+
+### js
+
+Type: `array` of [globs](https://github.com/isaacs/node-glob)
+*At least html or js option is required*
+
+JS files to check css selector usage against them.
 
 ### ignore
 
@@ -68,6 +75,14 @@ Type: `boolean`
 Default: `false`
 
 Useful if you run usedcss against nested templates. It split selectors so if you have an element with class `class1` in one file and an element with class `class2` in another one, it will save rule with `.class1 .class2` selector.
+
+## templateCache
+
+Type: `boolean`
+
+Default: `false`
+
+Check also for html presented in [Angular's $templateCache](https://docs.angularjs.org/api/ng/service/$templateCache). If you want to use this option, `js` option is required.
 
 ## Usage
 
