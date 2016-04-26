@@ -35,7 +35,8 @@ test('Should ignore nesting', t => {
       '.test2::before { content: \'\'; }\n' +
       '.nested .test1 { color: blue; }\n' +
       '.nested>.test2 { color: yellow;}\n' +
-      '.test1 .test5 { color: magenta; }\n'
+      '.test1 .test5 { color: magenta; }\n' +
+      '.test1 > .test6 { color: khaki; }\n'
     );
   });
 });
@@ -66,7 +67,8 @@ test('Ignore should also ignore nesting if ignoreNesting is enabled',
         '.nested .test1 { color: blue; }\n' +
         '.nested>.test2 { color: yellow;}\n' +
         '.remove { color: black; }\n' +
-        '.test1 .test5 { color: magenta; }\n'
+        '.test1 .test5 { color: magenta; }\n' +
+        '.test1 > .test6 { color: khaki; }\n'
       );
     });
   }
@@ -92,7 +94,8 @@ test('Should work with templateMode option', t => {
       '.test10,.test2 { color: pink; }\n' +
       '.test1:after { content: \'\'; }\n' +
       '.test2::before { content: \'\'; }\n' +
-      '.test1 .test5 { color: magenta; }\n'
+      '.test1 .test5 { color: magenta; }\n' +
+      '.test1 > .test6 { color: khaki; }\n'
     );
   });
 });

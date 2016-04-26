@@ -122,6 +122,9 @@ module.exports = postcss.plugin('usedcss', (options) => {
                       selector = selector.split(/[ <>]/);
                       if (
                         selector.every(sel => {
+                          if (sel === '') {
+                            return true;
+                          }
                           return htmls.some(html => {
                             return html(sel).length > 0 ||
                               (
