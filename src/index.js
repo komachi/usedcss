@@ -10,7 +10,7 @@ import isRegex from 'is-regex';
 import angularTemplatecacheExtract from 'angular-templatecache-extract';
 
 module.exports = postcss.plugin('usedcss', (options) => {
-  var htmls = [];
+  let htmls = [];
   return (css) => {
     return new Promise((resolve, reject) => {
       if (!options.html && !options.js) {
@@ -23,10 +23,6 @@ module.exports = postcss.plugin('usedcss', (options) => {
       }
       if (options.ignoreRegexp && !Array.isArray(options.ignoreRegexp)) {
         reject('ignoreRegexp option should be an array.');
-        return;
-      }
-      if (options.ignoreRegexp && !options.ignoreRegexp.every(isRegex)) {
-        reject('ignoreRegexp option should contain regular expressions.');
         return;
       }
       if (options.ngclass && typeof options.ngclass !== 'boolean') {
@@ -49,7 +45,7 @@ module.exports = postcss.plugin('usedcss', (options) => {
         reject('templateCache option require js files to be specified.');
         return;
       }
-      var promise;
+      let promise;
       if (options.ignoreNesting && options.ignore) {
         promise = Promise.map(options.ignore, (item, i) => {
           options.ignore[i] = item.replace(/^.*( |>|<)/g, '');
@@ -95,14 +91,14 @@ module.exports = postcss.plugin('usedcss', (options) => {
             if (options.ngclass) {
               return Promise.map(htmls, (html) => {
                 html('[ng-class], [data-ng-class]').each((i, el) => {
-                  var cls = [];
-                  var ngcl = html(el).attr('ng-class');
+                  let cls = [];
+                  let ngcl = html(el).attr('ng-class');
                   if (ngcl) {
                     cls = cls.concat(
                       Object.keys(expressions.compile(ngcl)())
                     );
                   }
-                  var datang = html(el).attr('data-ng-class');
+                  let datang = html(el).attr('data-ng-class');
                   if (datang) {
                     cls = cls.concat(
                       Object.keys(expressions.compile(datang)())
@@ -118,7 +114,7 @@ module.exports = postcss.plugin('usedcss', (options) => {
             return Promise.resolve();
           })
           .then(() => {
-            var promises = [];
+            let promises = [];
 
             css.walkRules((rule) => {
               // ignore keyframes
@@ -135,9 +131,12 @@ module.exports = postcss.plugin('usedcss', (options) => {
               // sounds hacky, but it works
               promises.push(
                 Promise.map(rule.selectors, (selector) => {
-                  var pr;
+                  let pr;
                   if (options.ignoreRegexp) {
                     pr = Promise.map(options.ignoreRegexp, (item) => {
+                      if (!isRegex(item)) {
+                        item = new RegExp(item);
+                      }
                       if (item.test(selector)) {
                         return Promise.reject();
                       }

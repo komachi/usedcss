@@ -21,12 +21,6 @@ test('Should return error if ignoreRegexp is not an array', t => {
   });
 });
 
-test('Should return error if ignoreRegexp contains not a regexp', t => {
-  return runTest({ignoreRegexp: ['test']}).catch(err => {
-    t.is(err, 'ignoreRegexp option should contain regular expressions.');
-  });
-});
-
 test('Should return error if ngclass is not boolean', t => {
   return runTest({ngclass: 'test'}).catch(err => {
     t.is(err, 'ngclass option should be boolean.');
