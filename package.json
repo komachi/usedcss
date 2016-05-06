@@ -1,6 +1,6 @@
 {
   "name": "usedcss",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Extract only styles presented in your html files.",
   "main": "lib/index.js",
   "scripts": {
@@ -49,8 +49,6 @@
   },
   "jscsConfig": {
     "preset": "node-style-guide",
-    "esnext": true,
-    "verbose": true,
     "requireTrailingComma": null,
     "requireCapitalizedComments": null
   },
@@ -67,7 +65,7 @@
   },
   "dependencies": {
     "angular-expressions": "^0.3.0",
-    "angular-templatecache-extract": "^1.0.0",
+    "angular-templatecache-extract": "^1.0.1",
     "bluebird": "^3.3.4",
     "cheerio": "^0.20.0",
     "is-regex": "^1.0.3",
@@ -82,6 +80,6 @@
     "babel-register": "^6.7.2",
     "eslint": "^2.7.0",
     "eslint-config-defaults": "^9.0.0",
-    "jscs": "^2.11.0"
+    "jscs": "^3.0.3"
   }
 }
