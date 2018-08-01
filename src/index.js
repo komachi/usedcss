@@ -94,12 +94,14 @@ module.exports = postcss.plugin('usedcss', (options) => {
                   let cls = [];
                   let ngcl = html(el).attr('ng-class');
                   if (ngcl) {
+                    ngcl = ngcl.replace('::','');
                     cls = cls.concat(
                       Object.keys(expressions.compile(ngcl)())
                     );
                   }
                   let datang = html(el).attr('data-ng-class');
                   if (datang) {
+                    datang = datang.replace('::', '');
                     cls = cls.concat(
                       Object.keys(expressions.compile(datang)())
                     );

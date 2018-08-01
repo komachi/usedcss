@@ -14,7 +14,7 @@ test('Should remove unused css classes', t => {
 
 
 test('Should save ng-class classes', t => {
-  return runTest({ngclass: true}).then(result => {
+  return runTest({ngclass: true, html: 'test.html'}).then(result => {
     t.is(result.css,
       '.test1 .test2 { color: red }\n' +
       '.test10,.test2 { color: pink; }\n' +
@@ -22,6 +22,19 @@ test('Should save ng-class classes', t => {
       '.test2::before { content: \'\'; }\n' +
       '.test1 .test3 { color: white; }\n' +
       '.test1 .test4 { color: orange; }\n'
+    );
+  });
+});
+
+test('Should save ng-class classes with One Time Binding', t => {
+  return runTest({ngclass: true, html: 'ngClassOtb.html'}).then(result => {
+    t.is(result.css,
+      '.test1 .test2 { color: red }\n' +
+      '.test10,.test2 { color: pink; }\n' +
+      '.test1:after { content: \'\'; }\n' +
+      '.test2::before { content: \'\'; }\n' +
+      '.test1 .test4 { color: orange; }\n' +
+      '.test1 .test5 { color: magenta; }\n'
     );
   });
 });
