@@ -1,6 +1,6 @@
 {
   "name": "usedcss",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Extract only styles presented in your html files.",
   "main": "lib/index.js",
   "scripts": {
